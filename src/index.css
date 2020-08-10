@@ -1,13 +1,51 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+
+/* SIGNIN */
+.signin-container {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 3%;
+    justify-content: center;
+    width: 50%;
+    text-align: center;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* HOME */
+.home-container{
+    width: 50%;
+    margin-left: 25%;
+}
+
+/* QUESTIONS */
+.grid-col{
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+.poll-button{
+    width: 97%;
+}
+/* POLL */
+.message-box{
+    width:80%;
+    text-align: center;
+}
+.ui.progress {
+    margin: 1em 0 1em !important;
+}
+
+/* NEW QUESTION */
+.card-header{
+    padding: 2%;
+}
+
+/* SCORE CARD */
+.score-length{
+    display: flex !important;
+    flex-direction: row !important;
+    font-size: 1.3em !important;
+    padding: 2%;
+}
+.avatar-img{
+    background-color: grey;
 }
