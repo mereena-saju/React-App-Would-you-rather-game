@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { handleInitialData } from '../actions/shared'
 import LoadingBar from 'react-redux-loading'
@@ -9,6 +9,7 @@ import Nav from './Nav'
 import Poll from './Poll'
 import NewQuestion from './NewQuestion';
 import LeaderBoard from './LeaderBoard';
+import Error from './Error';
 
 class App extends Component {
   componentDidMount() {
@@ -16,6 +17,21 @@ class App extends Component {
   }
   render() {
     const { loading, authedUser } = this.props
+    const PrivateRoute = ({ component: Component, ...rest }) => {
+      return (
+        <Route
+          {...rest}
+          render={(props) =>
+            this.props.authedUser ?
+              (
+                <Component {...props} />
+              )
+              //: rest.path === '/questions/:id' ? ( <Poll />) : ( <Redirect to={{ pathname: "/", state: { from: props.location }}}/> )
+              : (<Redirect to={{ pathname: "/", state: { from: props.location } }} />)
+          }
+        />
+      );
+    };
     return (
       <Router>
         <Fragment>
@@ -25,23 +41,16 @@ class App extends Component {
             loading === true
               ? null
               :
-              (authedUser ?
-                (
-                  <div>
-                    <Route path='/' exact component={Home} />
-                    <Route path='/sign-in' component={SignIn} />
-                    <Route path='/questions/:id' component={Poll} />
-                    <Route path='/new-question' component={NewQuestion} />
-                    <Route path='/leader-board' component={LeaderBoard} />
-                  </div>
-                )
-                : (
-                  <div>
-                    <Route path='/' exact component={Home} />
-                    <Route path='/sign-in' component={SignIn} />
-                    <Redirect to='/sign-in' />
-                  </div>
-                )
+              (<div>
+                <Switch>
+                  <Route path='/' exact component={SignIn} />
+                  <PrivateRoute path='/home' exact component={Home} />
+                  <PrivateRoute path='/questions/:id' component={Poll} />
+                  <PrivateRoute path='/new-question' exact component={NewQuestion} />
+                  <PrivateRoute path='/leader-board' exact component={LeaderBoard} />
+                  <Route component={Error} />
+                </Switch>
+              </div>
               )
           }
 

@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Questions from './Questions'
 import { Tab } from 'semantic-ui-react'
-import { Redirect } from "react-router-dom";
+import {Redirect } from "react-router-dom";
 
 class Home extends Component {
     render() {
         const { unAnsSorted, ansSorted, authedUser } = this.props
         if (authedUser == null) {
-            return <Redirect to='/sign-in' />;
+            return <Redirect to='/' />;
         }
         const panes = [
             {

@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
 import { handleAddAnswer } from "../actions/questions";
+import Error from './Error';
 
 export class Poll extends Component {
     state = {
@@ -32,14 +33,18 @@ export class Poll extends Component {
         return <Label as='a' color='yellow' floating circular>Your Vote</Label>
     }
     render() {
-        const { user, question, unAnswered, answer } = this.props
-
+        const { isError, user, question, unAnswered, answer } = this.props
+        if (isError) {
+            return (
+                <Error />
+            );
+        }
         let optOneVotes = question.optionOne.votes.length;
         let optTwoVotes = question.optionTwo.votes.length;
         let totalVotes = optOneVotes + optTwoVotes;
 
         if (this.state.toHome === true) {
-            return <Redirect to='/' />
+            return <Redirect to='/home' />
         }
         return (
             unAnswered ?
@@ -160,9 +165,16 @@ export class Poll extends Component {
     }
 }
 function mapStateToProps({ authedUser, users, questions }, { match }) {
-
+   
+    if (questions[match.params.id] === undefined) {
+        const isError = true;
+        return {
+          isError
+        };
+    }
     const qid = match.params.id;
     const question = questions[qid];
+    const isError = false;
     const user = users[question.author];
 
     let answer = "";
@@ -182,7 +194,8 @@ function mapStateToProps({ authedUser, users, questions }, { match }) {
         qid,
         question,
         unAnswered,
-        answer
+        answer,
+        isError
     }
 }
 export default withRouter(connect(mapStateToProps)(Poll));

@@ -7,7 +7,7 @@ import { setAuthedUser } from '../actions/authedUser'
 class Nav extends Component {
     handleSignout = e => {
         this.props.dispatch(setAuthedUser(null))
-        this.props.history.push("/sign-in");
+        this.props.history.push("/");
     }
     render() {
         const { authedUser, user } = this.props;
@@ -17,7 +17,7 @@ class Nav extends Component {
                 <Menu.Item
                     as={NavLink}
                     name='home'
-                    exact to="/"
+                    to="/home"
                 />
                 <Menu.Item
                     as={NavLink}

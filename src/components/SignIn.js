@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { setAuthedUser } from '../actions/authedUser'
-import { Redirect } from 'react-router-dom'
+import { withRouter,Redirect } from 'react-router-dom'
 import { Card, Dropdown, Button } from "semantic-ui-react";
 
 
@@ -9,7 +9,6 @@ import { Card, Dropdown, Button } from "semantic-ui-react";
 class SignIn extends Component {
     state = {
         id: null,
-        toHome: false,
     }
     handleChange = (e, data) => {
         const id = data.value
@@ -19,11 +18,8 @@ class SignIn extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault()
-        const { id } = this.state
-        this.props.dispatch(setAuthedUser(id))
-        this.setState(() => ({
-            toHome: id === null ? false : true,
-        }))
+        const { id } = this.state;
+        this.props.dispatch(setAuthedUser(id));
     }
     formatUsersArray = (usersArray) => {
         const newArray = [];
@@ -43,11 +39,11 @@ class SignIn extends Component {
         return newArray;
     };
     render() {
-        const { users } = this.props;
-        const { toHome } = this.state;
-        const formattedUsers = this.formatUsersArray(users)
-        if (toHome === true) {
-            return <Redirect to='/' />
+        const { users,location,authedUser } = this.props;
+        const formattedUsers = this.formatUsersArray(users);
+        const { from } = location.state || { from: { pathname: "/home" } };
+        if (authedUser !== null) {
+          return <Redirect to={from} />;
         }
         return (
             <div className='signin-container'>
@@ -78,11 +74,13 @@ class SignIn extends Component {
         )
     }
 }
-function mapStateToProps({ users }) {
+function mapStateToProps({ users,authedUser  }) {
+    
     const allUsers = Object.values(users);
     return {
         users: allUsers,
+        authedUser 
 
     };
 }
-export default connect(mapStateToProps)(SignIn);
+export default withRouter(connect(mapStateToProps)(SignIn));
