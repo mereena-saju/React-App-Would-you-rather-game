@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { Card, Input, Divider, Button } from "semantic-ui-react";
-import { handleAddQuestion } from '../actions/questions';
+import { handleAddQuestion } from '../actions/shared';
 
 class NewQuestion extends Component {
     state = {

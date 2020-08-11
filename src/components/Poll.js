@@ -3,7 +3,7 @@ import { Card, Button, Image, Segment, Grid, Form, Checkbox, Message, Progress, 
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
-import { handleAddAnswer } from "../actions/questions";
+import { handleAddAnswer } from "../actions/shared";
 import Error from './Error';
 
 export class Poll extends Component {
